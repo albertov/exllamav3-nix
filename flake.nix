@@ -52,7 +52,7 @@
             '';
           };
 
-          kbnf = pkgs.mkShell {
+          rust-deps = pkgs.mkShell {
             packages = with pkgs; [
               rustc
               cargo
@@ -61,7 +61,7 @@
             ];
 
             shellHook = ''
-              echo "Rust development environment for kbnf"
+              echo "Rust development environment for Rust-based Python packages"
               echo "rustc version: $(rustc --version)"
               echo "cargo version: $(cargo --version)"
               echo ""
@@ -70,6 +70,13 @@
               echo "  cd kbnf && git checkout v0.4.2-python"
               echo "  cargo generate-lockfile"
               echo "  cp Cargo.lock ${toString ./.}/pkgs/kbnf/"
+              echo ""
+              echo "To generate Cargo.lock for general-sam:"
+              echo "  pip download --no-deps general-sam==1.0.0"
+              echo "  tar xzf general_sam-1.0.0.tar.gz"
+              echo "  cd general_sam-1.0.0"
+              echo "  cargo generate-lockfile"
+              echo "  cp Cargo.lock ${toString ./.}/pkgs/general-sam/"
             '';
           };
         };

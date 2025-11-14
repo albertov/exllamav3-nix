@@ -22,19 +22,8 @@ inputs: final: prev: {
         doCheck = false;
       };
 
-      general-sam = pyFinal.buildPythonPackage rec {
-        pname = "general-sam";
-        version = "1.0.0";
-        format = "pyproject";
-
-        src = pyFinal.fetchPypi {
-          pname = "general_sam";
-          inherit version;
-          hash = "sha256-iSeonFBV9M7HN+TxTXp6N17dGY3sjrfor5/2hr6nH4c=";
-        };
-
-        nativeBuildInputs = [ pyFinal.setuptools pyFinal.wheel ];
-        doCheck = false;
+      general-sam = pyFinal.callPackage ./pkgs/general-sam {
+        inherit (final) rustPlatform stdenv darwin;
       };
 
       kbnf = pyFinal.callPackage ./pkgs/kbnf {

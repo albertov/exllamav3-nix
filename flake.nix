@@ -15,20 +15,24 @@
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
       let
         overlay = import ./overlay.nix inputs;
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ overlay ];
-          config = {
-            allowUnfree = true;
-            cudaSupport = true;
-          };
-        };
+      in
+  {
+      overlays.default = overlay;
+  } // flake-utils.lib.eachDefaultSystem (system:
+      let
+            pkgs = import nixpkgs {
+              inherit system;
+              overlays = [ overlay ];
+              config = {
+                allowUnfree = true;
+                cudaSupport = true;
+              };
+            };
       in
       {
-        overlays.default = overlay;
+        legacyPackages = pkgs;
         packages = rec {
           inherit (pkgs.python3Packages) exllamav3 exllamav2 flash-attn tabby-api;
           default = tabby-api;

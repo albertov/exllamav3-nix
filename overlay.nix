@@ -14,10 +14,11 @@ inputs: final: prev: {
         version = inputs.exllamav3.shortRev;
       };
       tabby-api = pyFinal.callPackage ./pkgs/tabby-api {
-        inherit (pyFinal) buildPythonPackage setuptools wheel packaging
+        inherit (final) makeWrapper;
+        inherit (pyFinal) buildPythonPackage setuptools wheel packaging python
           fastapi uvicorn pydantic ruamel-yaml aiofiles aiohttp pillow
           psutil huggingface-hub loguru tokenizers rich jinja2 sse-starlette
-          pydantic-settings httpx;
+          pydantic-settings httpx formatron kbnf async-lru httptools uvloop;
         exllamav3 = pyFinal.exllamav3;
         src = inputs.tabby-api;
         version = inputs.tabby-api.shortRev;

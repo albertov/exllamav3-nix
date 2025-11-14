@@ -18,7 +18,7 @@ buildPythonPackage rec {
   };
 
   postUnpack = ''
-    cp ${./Cargo.lock} source/Cargo.lock
+    cp ${./Cargo.lock} general_sam-${version}/Cargo.lock
   '';
 
   cargoDeps = rustPlatform.importCargoLock {

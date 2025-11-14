@@ -23,9 +23,8 @@ buildPythonPackage rec {
     cp ${./Cargo.lock} source/Cargo.lock
   '';
 
-  cargoDeps = rustPlatform.fetchCargoVendor {
-    inherit src;
-    hash = lib.fakeHash;
+  cargoLock = {
+    lockFile = ./Cargo.lock;
   };
 
   nativeBuildInputs = [

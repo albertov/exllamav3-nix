@@ -6,6 +6,8 @@
     flake-utils.url = github:numtide/flake-utils;
     exllamav3.url = github:turboderp-org/exllamav3;
     exllamav3.flake = false;
+    exllamav2.url = github:turboderp-org/exllamav2;
+    exllamav2.flake = false;
     tabby-api.url = github:theroyallab/tabbyAPI;
     tabby-api.flake = false;
   };
@@ -26,13 +28,13 @@
       {
         overlays.default = overlay;
         packages = rec {
-          inherit (pkgs.python3Packages) exllamav3 tabby-api;
+          inherit (pkgs.python3Packages) exllamav3 exllamav2 tabby-api;
           default = tabby-api;
         };
 
         devShells = {
           default = pkgs.mkShell {
-            inputsFrom = [ pkgs.python3Packages.exllamav3 ];
+            inputsFrom = [ pkgs.python3Packages.exllamav3 pkgs.python3Packages.exllamav2];
 
             shellHook = ''
               export CUDA_HOME="${pkgs.cudaPackages.cuda_nvcc}"

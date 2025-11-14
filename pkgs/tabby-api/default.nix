@@ -5,6 +5,7 @@
 , packaging
 , makeWrapper
 , python
+, exllamav2
 , exllamav3
 , fastapi
 , uvicorn
@@ -78,7 +79,7 @@ include = ["backends*", "common*", "endpoints*"]'
     async-lru
     httptools
     uvloop
-    # Use the exllamav3 package from this repo
+    exllamav2
     exllamav3
   ];
 

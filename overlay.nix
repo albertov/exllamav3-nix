@@ -50,6 +50,14 @@ inputs: final: prev: {
         ];
         doCheck = false;
       };
+      exllamav2 = pyFinal.callPackage ./pkgs/exllamav2 {
+        inherit (final) cudaPackages ninja;
+        inherit (pyFinal) buildPythonPackage setuptools wheel pandas
+          fastparquet torch-bin safetensors pygments websockets regex
+          numpy tokenizers rich pillow;
+        src = inputs.exllamav2;
+        version = inputs.exllamav2.shortRev;
+      };
       exllamav3 = pyFinal.callPackage ./pkgs/exllamav3 {
         inherit (final) cudaPackages ninja;
         inherit (pyFinal) buildPythonPackage setuptools wheel pandas

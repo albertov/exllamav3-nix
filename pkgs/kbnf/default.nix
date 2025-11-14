@@ -19,13 +19,7 @@ buildPythonPackage rec {
     hash = "sha256-reefuqS0eExky9qtxBTqwxnZgK8AWFfkrN+VL/lFLyg=";
   };
 
-  postUnpack = ''
-    cp ${./Cargo.lock} source/Cargo.lock
-  '';
-
-  cargoLock = {
-    lockFile = ./Cargo.lock;
-  };
+  cargoLock = ./Cargo.lock;
 
   nativeBuildInputs = [
     rustPlatform.cargoSetupHook

@@ -38,6 +38,13 @@ buildPythonPackage rec {
 
   inherit src;
 
+  # Patch pyproject.toml to include source files in the package
+  postPatch = ''
+    substituteInPlace pyproject.toml \
+      --replace-fail 'py-modules = []' 'packages = ["backends", "common", "endpoints"]
+py-modules = ["main"]'
+  '';
+
   nativeBuildInputs = [
     setuptools
     wheel
@@ -84,14 +91,14 @@ buildPythonPackage rec {
     makeWrapper ${python}/bin/python $out/bin/tabbyapi \
       --prefix PYTHONPATH : "$out/${python.sitePackages}:$PYTHONPATH" \
       --add-flags "-m" \
-      --add-flags "tabbyAPI.main"
+      --add-flags "main"
   '';
 
   # Disable tests as they may require GPU or network access
   doCheck = false;
 
-  # Disable imports check - the module structure is complex and requires runtime setup
-  pythonImportsCheck = [ ];
+  # Check that the main module and packages can be imported
+  pythonImportsCheck = [ "main" "backends" "common" "endpoints" ];
 
   meta = with lib; {
     description = "An OAI compatible exllamav2 API that's both lightweight and fast";

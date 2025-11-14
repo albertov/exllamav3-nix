@@ -84,7 +84,7 @@ buildPythonPackage rec {
     makeWrapper ${python}/bin/python $out/bin/tabbyapi \
       --prefix PYTHONPATH : "$out/${python.sitePackages}:$PYTHONPATH" \
       --add-flags "-m" \
-      --add-flags "main"
+      --add-flags "tabbyAPI.main"
   '';
 
   # Disable tests as they may require GPU or network access

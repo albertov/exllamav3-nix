@@ -22,34 +22,8 @@ inputs: final: prev: {
         doCheck = false;
       };
 
-      kbnf = pyFinal.buildPythonPackage rec {
-        pname = "kbnf";
-        version = "0.4.2-python";
-        format = "pyproject";
-
-        src = final.fetchFromGitHub {
-          owner = "Dan-wanna-M";
-          repo = "kbnf";
-          rev = "v${version}";
-          hash = "sha256-reefuqS0eExky9qtxBTqwxnZgK8AWFfkrN+VL/lFLyg=";
-        };
-
-        cargoDeps = final.rustPlatform.fetchCargoVendor {
-          inherit src;
-          hash = final.lib.fakeHash;
-        };
-
-        nativeBuildInputs = [
-          final.rustPlatform.cargoSetupHook
-          final.rustPlatform.maturinBuildHook
-        ];
-
-        buildInputs = final.lib.optionals final.stdenv.isDarwin [
-          final.darwin.apple_sdk.frameworks.Security
-        ];
-
-        propagatedBuildInputs = [ pyFinal.numpy ];
-        doCheck = false;
+      kbnf = pyFinal.callPackage ./pkgs/kbnf {
+        inherit (final) rustPlatform stdenv darwin;
       };
 
       formatron = pyFinal.buildPythonPackage rec {

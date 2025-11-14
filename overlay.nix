@@ -30,7 +30,7 @@ inputs: final: prev: {
         src = pyFinal.fetchPypi {
           pname = "general_sam";
           inherit version;
-          hash = final.lib.fakeHash;
+          hash = "sha256-iSeonFBV9M7HN+TxTXp6N17dGY3sjrfor5/2hr6nH4c=";
         };
 
         doCheck = false;

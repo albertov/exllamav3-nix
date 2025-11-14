@@ -27,15 +27,17 @@ inputs: final: prev: {
         version = "0.4.2";
         format = "pyproject";
 
-        src = pyFinal.fetchPypi {
-          inherit pname version;
-          hash = "sha256-aNZ3/SHmTR1XSJM7rHS0w/Ptf0rfzSv2br9JHE6eymo=";
+        src = final.fetchFromGitHub {
+          owner = "Dan-wanna-M";
+          repo = "kbnf";
+          rev = "v${version}";
+          hash = "sha256-Jq+ElZF/TBJlF8xjeB/62B2/eKGfnDiSymbol5Y+aIwHM=";
         };
 
         cargoDeps = final.rustPlatform.fetchCargoVendor {
           inherit src;
           name = "${pname}-${version}";
-          hash = "sha256-6gP5+p4pXTUz23SYfQBcHNH6eo+6Cq+w2S93Yc6zMf8=";
+          hash = "sha256-0000000000000000000000000000000000000000000=";
         };
 
         nativeBuildInputs = [

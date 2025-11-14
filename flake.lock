@@ -54,7 +54,8 @@
       "inputs": {
         "exllamav3": "exllamav3",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "tabby-api": "tabby-api"
       }
     },
     "systems": {
@@ -69,6 +70,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tabby-api": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1762459404,
+        "narHash": "sha256-GOFK5DtdI4WuNqr6Y5aW4e+DXXmuae3/vEU2p33FzJo=",
+        "owner": "theroyallab",
+        "repo": "tabbyAPI",
+        "rev": "fece4791ad348d885bb9d80d4875ad1de84d7f50",
+        "type": "github"
+      },
+      "original": {
+        "owner": "theroyallab",
+        "repo": "tabbyAPI",
         "type": "github"
       }
     }

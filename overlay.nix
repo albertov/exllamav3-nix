@@ -15,7 +15,7 @@ inputs: final: prev: {
         src = pyFinal.fetchPypi {
           pname = "async_lru";
           inherit version;
-          hash = "sha256-ISmYH/jHkr3kFPFbFmiy5bYO829Pe+SpCCqO2Hf6dH8=";
+          hash = "sha256-SB1SzN0nJ19CxDqSi0pQw7+y1nr054sXDj4Ls5xm5bs=";
         };
 
         propagatedBuildInputs = [ pyFinal.typing-extensions ];
@@ -29,7 +29,7 @@ inputs: final: prev: {
 
         src = pyFinal.fetchPypi {
           inherit pname version;
-          hash = "sha256-wWh8rfnOjizm5oF8hHwmkqDZ88LV4E4BObQj1mzCaHQ=";
+          hash = "sha256-aNZ3/SHmTR1XSJM7rHS0w/Ptf0rfzSv2br9JHE6eymo=";
         };
 
         cargoDeps = final.rustPlatform.fetchCargoVendor {
@@ -39,7 +39,7 @@ inputs: final: prev: {
         };
 
         nativeBuildInputs = [
-          pyFinal.maturin
+          final.maturin
           final.rustPlatform.cargoSetupHook
           final.rustPlatform.maturinBuildHook
         ];
@@ -54,7 +54,7 @@ inputs: final: prev: {
 
         src = pyFinal.fetchPypi {
           inherit pname version;
-          hash = "sha256-DGH1uxW6z5WKL0b/5x+sJNsEBXx7v6OhrqQWjW3n0Mo=";
+          hash = "sha256-14aqYIuL+2FMDMz2tK21Xy8TIG0PtRfMoFPOf8m8E+Y=";
         };
 
         nativeBuildInputs = [ pyFinal.setuptools pyFinal.wheel ];

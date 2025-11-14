@@ -1,0 +1,119 @@
+{
+  description = "ExLlamaV2 - Inference library for running local LLMs on modern consumer GPUs";
+
+  inputs = {
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    flake-utils.url = github:numtide/flake-utils;
+    exllamav3.url = github:turboderp-org/exllamav3;
+    exllamav3.flake = false;
+  };
+
+  outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ overlay ];
+          config = {
+            allowUnfree = true;
+            cudaSupport = true;
+          };
+        };
+        overlay = final: prev: {
+          # Override python packages to disable tests that require network access
+          python3Packages = prev.python3Packages.override {
+            overrides = pyFinal: pyPrev: {
+              websockets = pyPrev.websockets.overridePythonAttrs (old: {
+                doCheck = false;
+              });
+              exllamav3 = pyFinal.buildPythonPackage rec {
+                pname = "exllamav3";
+                version = inputs.exllamav3.shortRev;
+                format = "setuptools";
+
+                src = inputs.exllamav3;
+
+                nativeBuildInputs = with final; [
+                  cudaPackages.cuda_nvcc
+                  cudaPackages.cuda_cudart
+                  ninja
+                ] ++ (with pyFinal; [
+                  setuptools
+                  wheel
+                ]);
+
+                buildInputs = with final; [
+                  cudaPackages.cuda_cudart
+                  cudaPackages.libcublas
+                  cudaPackages.libcusparse
+                  cudaPackages.libcusolver
+                  cudaPackages.libcurand
+                ];
+
+                propagatedBuildInputs = with pyFinal; [
+                  pandas
+                  ninja
+                  wheel
+                  setuptools
+                  fastparquet
+                  torch-bin
+                  safetensors
+                  pygments
+                  websockets
+                  regex
+                  numpy
+                  tokenizers
+                  rich
+                  pillow
+                ];
+
+                doCheck = true;
+
+                # Set environment variables for CUDA compilation
+                preBuild = ''
+                  export CUDA_HOME="${pkgs.cudaPackages.cuda_nvcc}"
+                  export TORCH_CUDA_ARCH_LIST="8.0;8.6;8.9;9.0;12.0"
+                  export NIX_CFLAGS_COMPILE="-I${pkgs.cudaPackages.cuda_nvcc}/include -I${pkgs.cudaPackages.libcurand}/include $NIX_CFLAGS_COMPILE"
+                '';
+
+                meta = with final.lib; {
+                  description = "Inference library for running local LLMs on modern consumer GPUs";
+                  homepage = "https://github.com/turboderp/exllamav3";
+                  license = licenses.mit;
+                  platforms = platforms.linux;
+                };
+              };
+            };
+          };
+        };
+      in
+      {
+        overlays.default = overlay;
+        packages = rec {
+          inherit (pkgs.python3Packages) exllamav3;
+          default = exllamav3;
+        };
+
+        devShells.default = pkgs.mkShell {
+          inputsFrom = [ pkgs.python3Packages.exllamav3 ];
+
+          shellHook = ''
+            export CUDA_HOME="${pkgs.cudaPackages.cuda_nvcc}"
+            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
+              pkgs.cudaPackages.cuda_cudart
+              pkgs.cudaPackages.libcublas
+              pkgs.cudaPackages.libcusparse
+              pkgs.cudaPackages.libcusolver
+              pkgs.cudaPackages.libcurand
+              pkgs.stdenv.cc.cc.lib
+            ]}:$LD_LIBRARY_PATH"
+            export TORCH_CUDA_ARCH_LIST="8.0;8.6;8.9;9.0;12.0"
+
+            echo "ExLlamaV2 development environment"
+            echo "To install in development mode: pip install -e ."
+            echo "To run tests: python test_inference.py -m <path_to_model> -p 'Once upon a time,'"
+          '';
+        };
+      }
+    );
+}

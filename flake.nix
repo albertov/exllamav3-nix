@@ -30,25 +30,48 @@
           default = tabby-api;
         };
 
-        devShells.default = pkgs.mkShell {
-          inputsFrom = [ pkgs.python3Packages.exllamav3 ];
+        devShells = {
+          default = pkgs.mkShell {
+            inputsFrom = [ pkgs.python3Packages.exllamav3 ];
 
-          shellHook = ''
-            export CUDA_HOME="${pkgs.cudaPackages.cuda_nvcc}"
-            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
-              pkgs.cudaPackages.cuda_cudart
-              pkgs.cudaPackages.libcublas
-              pkgs.cudaPackages.libcusparse
-              pkgs.cudaPackages.libcusolver
-              pkgs.cudaPackages.libcurand
-              pkgs.stdenv.cc.cc.lib
-            ]}:$LD_LIBRARY_PATH"
-            export TORCH_CUDA_ARCH_LIST="8.0;8.6;8.9;9.0;12.0"
+            shellHook = ''
+              export CUDA_HOME="${pkgs.cudaPackages.cuda_nvcc}"
+              export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
+                pkgs.cudaPackages.cuda_cudart
+                pkgs.cudaPackages.libcublas
+                pkgs.cudaPackages.libcusparse
+                pkgs.cudaPackages.libcusolver
+                pkgs.cudaPackages.libcurand
+                pkgs.stdenv.cc.cc.lib
+              ]}:$LD_LIBRARY_PATH"
+              export TORCH_CUDA_ARCH_LIST="8.0;8.6;8.9;9.0;12.0"
 
-            echo "ExLlamaV2 development environment"
-            echo "To install in development mode: pip install -e ."
-            echo "To run tests: python test_inference.py -m <path_to_model> -p 'Once upon a time,'"
-          '';
+              echo "ExLlamaV2 development environment"
+              echo "To install in development mode: pip install -e ."
+              echo "To run tests: python test_inference.py -m <path_to_model> -p 'Once upon a time,'"
+            '';
+          };
+
+          kbnf = pkgs.mkShell {
+            packages = with pkgs; [
+              rustc
+              cargo
+              rustfmt
+              clippy
+            ];
+
+            shellHook = ''
+              echo "Rust development environment for kbnf"
+              echo "rustc version: $(rustc --version)"
+              echo "cargo version: $(cargo --version)"
+              echo ""
+              echo "To generate Cargo.lock for kbnf:"
+              echo "  cd /tmp && git clone https://github.com/Dan-wanna-M/kbnf.git"
+              echo "  cd kbnf && git checkout v0.4.2-python"
+              echo "  cargo generate-lockfile"
+              echo "  cp Cargo.lock ${toString ./.}/pkgs/kbnf/"
+            '';
+          };
         };
       }
     );

@@ -6,6 +6,8 @@
     flake-utils.url = github:numtide/flake-utils;
     exllamav3.url = github:turboderp-org/exllamav3;
     exllamav3.flake = false;
+    tabby-api.url = github:theroyallab/tabbyAPI;
+    tabby-api.flake = false;
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
@@ -24,7 +26,7 @@
       {
         overlays.default = overlay;
         packages = rec {
-          inherit (pkgs.python3Packages) exllamav3;
+          inherit (pkgs.python3Packages) exllamav3 tabby-api;
           default = exllamav3;
         };
 

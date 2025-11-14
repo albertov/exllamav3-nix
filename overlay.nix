@@ -41,6 +41,8 @@ inputs: final: prev: {
           pyFinal.pydantic
           pyFinal.kbnf
           pyFinal.jsonschema
+          pyFinal.general-sam
+          pyFinal.frozendict
         ];
         doCheck = false;
       };

@@ -26,62 +26,13 @@
               websockets = pyPrev.websockets.overridePythonAttrs (old: {
                 doCheck = false;
               });
-              exllamav3 = pyFinal.buildPythonPackage rec {
-                pname = "exllamav3";
-                version = inputs.exllamav3.shortRev;
-                format = "setuptools";
-
+              exllamav3 = pyFinal.callPackage ./pkgs/exllamav3 {
+                inherit (final) cudaPackages ninja;
+                inherit (pyFinal) buildPythonPackage setuptools wheel pandas
+                  fastparquet torch-bin safetensors pygments websockets regex
+                  numpy tokenizers rich pillow;
                 src = inputs.exllamav3;
-
-                nativeBuildInputs = with final; [
-                  cudaPackages.cuda_nvcc
-                  cudaPackages.cuda_cudart
-                  ninja
-                ] ++ (with pyFinal; [
-                  setuptools
-                  wheel
-                ]);
-
-                buildInputs = with final; [
-                  cudaPackages.cuda_cudart
-                  cudaPackages.libcublas
-                  cudaPackages.libcusparse
-                  cudaPackages.libcusolver
-                  cudaPackages.libcurand
-                ];
-
-                propagatedBuildInputs = with pyFinal; [
-                  pandas
-                  ninja
-                  wheel
-                  setuptools
-                  fastparquet
-                  torch-bin
-                  safetensors
-                  pygments
-                  websockets
-                  regex
-                  numpy
-                  tokenizers
-                  rich
-                  pillow
-                ];
-
-                doCheck = true;
-
-                # Set environment variables for CUDA compilation
-                preBuild = ''
-                  export CUDA_HOME="${pkgs.cudaPackages.cuda_nvcc}"
-                  export TORCH_CUDA_ARCH_LIST="8.0;8.6;8.9;9.0;12.0"
-                  export NIX_CFLAGS_COMPILE="-I${pkgs.cudaPackages.cuda_nvcc}/include -I${pkgs.cudaPackages.libcurand}/include $NIX_CFLAGS_COMPILE"
-                '';
-
-                meta = with final.lib; {
-                  description = "Inference library for running local LLMs on modern consumer GPUs";
-                  homepage = "https://github.com/turboderp/exllamav3";
-                  license = licenses.mit;
-                  platforms = platforms.linux;
-                };
+                version = inputs.exllamav3.shortRev;
               };
             };
           };

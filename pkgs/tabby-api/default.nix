@@ -74,7 +74,7 @@ buildPythonPackage rec {
 
   # Disable runtime dependency checks as some package names differ
   # (e.g., fastapi vs fastapi-slim) and pydantic version is slightly newer
-  pythonRemoveRuntimeDependencyCheck = [
+  pythonRemoveDeps = [
     "fastapi-slim"
     "pydantic"
   ];

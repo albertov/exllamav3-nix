@@ -32,7 +32,7 @@ inputs: final: prev: {
           hash = "sha256-wWh8rfnOjizm5oF8hHwmkqDZ88LV4E4BObQj1mzCaHQ=";
         };
 
-        cargoDeps = final.rustPlatform.fetchCargoTarball {
+        cargoDeps = final.rustPlatform.fetchCargoVendor {
           inherit src;
           name = "${pname}-${version}";
           hash = "sha256-6gP5+p4pXTUz23SYfQBcHNH6eo+6Cq+w2S93Yc6zMf8=";

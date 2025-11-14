@@ -34,10 +34,10 @@ inputs: final: prev: {
           hash = "sha256-reefuqS0eExky9qtxBTqwxnZgK8AWFfkrN+VL/lFLyg=";
         };
 
-        cargoDeps = final.rustPlatform.fetchCargoVendor {
+        cargoDeps = final.rustPlatform.fetchCargoTarball {
           inherit src;
           name = "${pname}-${version}";
-          hash = "sha256-0000000000000000000000000000000000000000000=";
+          hash = final.lib.fakeHash;
         };
 
         nativeBuildInputs = [

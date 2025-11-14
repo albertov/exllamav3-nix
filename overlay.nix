@@ -24,14 +24,14 @@ inputs: final: prev: {
 
       kbnf = pyFinal.buildPythonPackage rec {
         pname = "kbnf";
-        version = "0.4.2";
+        version = "0.4.2-python";
         format = "pyproject";
 
         src = final.fetchFromGitHub {
           owner = "Dan-wanna-M";
           repo = "kbnf";
           rev = "v${version}";
-          hash = "sha256-Jq+ElZF/TBJlF8xjeB/62B2/eKGfnDiSymbol5Y+aIwHM=";
+          hash = "sha256-reefuqS0eExky9qtxBTqwxnZgK8AWFfkrN+VL/lFLyg=";
         };
 
         cargoDeps = final.rustPlatform.fetchCargoVendor {

@@ -50,6 +50,23 @@
         "type": "github"
       }
     },
+    "flash-attn": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1755368001,
+        "narHash": "sha256-dE9d5Uj5TRfy1OFw1OweWA8lmxmcxnaaxfCFyx8+CXI=",
+        "owner": "kingbri1",
+        "repo": "flash-attention",
+        "rev": "15eea1b2839b7978eeda8b36c791142144336303",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kingbri1",
+        "ref": "v2.8.3",
+        "repo": "flash-attention",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1762977756,
@@ -71,6 +88,7 @@
         "exllamav2": "exllamav2",
         "exllamav3": "exllamav3",
         "flake-utils": "flake-utils",
+        "flash-attn": "flash-attn",
         "nixpkgs": "nixpkgs",
         "tabby-api": "tabby-api"
       }

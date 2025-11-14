@@ -41,7 +41,17 @@ buildPythonPackage rec {
   # Patch pyproject.toml to include source files in the package
   postPatch = ''
     substituteInPlace pyproject.toml \
-      --replace-fail 'py-modules = []' 'packages = ["backends", "common", "endpoints"]
+      --replace-fail 'py-modules = []' 'packages = [
+    "backends",
+    "backends.exllamav2",
+    "backends.exllamav3",
+    "backends.infinity",
+    "common",
+    "endpoints",
+    "endpoints.Kobold",
+    "endpoints.OAI",
+    "endpoints.core",
+]
 py-modules = ["main"]'
   '';
 
@@ -98,7 +108,18 @@ py-modules = ["main"]'
   doCheck = false;
 
   # Check that the main module and packages can be imported
-  pythonImportsCheck = [ "main" "backends" "common" "endpoints" ];
+  pythonImportsCheck = [
+    "main"
+    "backends"
+    "backends.exllamav2"
+    "backends.exllamav3"
+    "backends.infinity"
+    "common"
+    "endpoints"
+    "endpoints.Kobold"
+    "endpoints.OAI"
+    "endpoints.core"
+  ];
 
   meta = with lib; {
     description = "An OAI compatible exllamav2 API that's both lightweight and fast";

@@ -27,7 +27,7 @@
         overlays.default = overlay;
         packages = rec {
           inherit (pkgs.python3Packages) exllamav3 tabby-api;
-          default = exllamav3;
+          default = tabby-api;
         };
 
         devShells.default = pkgs.mkShell {

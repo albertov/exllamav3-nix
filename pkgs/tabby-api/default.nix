@@ -39,20 +39,13 @@ buildPythonPackage rec {
   inherit src;
 
   # Patch pyproject.toml to include source files in the package
+  # Use find: to automatically discover all packages
   postPatch = ''
     substituteInPlace pyproject.toml \
-      --replace-fail 'py-modules = []' 'packages = [
-    "backends",
-    "backends.exllamav2",
-    "backends.exllamav3",
-    "backends.infinity",
-    "common",
-    "endpoints",
-    "endpoints.Kobold",
-    "endpoints.OAI",
-    "endpoints.core",
-]
-py-modules = ["main"]'
+      --replace-fail 'py-modules = []' 'py-modules = ["main"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["backends*", "common*", "endpoints*"]'
   '';
 
   nativeBuildInputs = [
@@ -107,18 +100,13 @@ py-modules = ["main"]'
   # Disable tests as they may require GPU or network access
   doCheck = false;
 
-  # Check that the main module and packages can be imported
+  # Check that the main module and top-level packages can be imported
+  # Subpackages are automatically discovered by setuptools find:
   pythonImportsCheck = [
     "main"
     "backends"
-    "backends.exllamav2"
-    "backends.exllamav3"
-    "backends.infinity"
     "common"
     "endpoints"
-    "endpoints.Kobold"
-    "endpoints.OAI"
-    "endpoints.core"
   ];
 
   meta = with lib; {

@@ -34,17 +34,20 @@ inputs: final: prev: {
           hash = "sha256-reefuqS0eExky9qtxBTqwxnZgK8AWFfkrN+VL/lFLyg=";
         };
 
-        cargoDeps = final.rustPlatform.fetchCargoTarball {
+        cargoDeps = final.rustPlatform.fetchCargoVendor {
           inherit src;
-          name = "${pname}-${version}";
           hash = final.lib.fakeHash;
         };
 
         nativeBuildInputs = [
-          final.maturin
           final.rustPlatform.cargoSetupHook
           final.rustPlatform.maturinBuildHook
         ];
+
+        buildInputs = final.lib.optionals final.stdenv.isDarwin [
+          final.darwin.apple_sdk.frameworks.Security
+        ];
+
         propagatedBuildInputs = [ pyFinal.numpy ];
         doCheck = false;
       };

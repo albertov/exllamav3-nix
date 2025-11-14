@@ -25,7 +25,7 @@ inputs: final: prev: {
       general-sam = pyFinal.buildPythonPackage rec {
         pname = "general-sam";
         version = "1.0.0";
-        format = "setuptools";
+        format = "pyproject";
 
         src = pyFinal.fetchPypi {
           pname = "general_sam";
@@ -33,6 +33,7 @@ inputs: final: prev: {
           hash = "sha256-iSeonFBV9M7HN+TxTXp6N17dGY3sjrfor5/2hr6nH4c=";
         };
 
+        nativeBuildInputs = [ pyFinal.setuptools pyFinal.wheel ];
         doCheck = false;
       };
 

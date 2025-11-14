@@ -8,6 +8,8 @@
     exllamav3.flake = false;
     exllamav2.url = github:turboderp-org/exllamav2;
     exllamav2.flake = false;
+    flash-attn.url = github:kingbri1/flash-attention/v2.8.3;
+    flash-attn.flake = false;
     tabby-api.url = github:theroyallab/tabbyAPI;
     tabby-api.flake = false;
   };
@@ -28,7 +30,7 @@
       {
         overlays.default = overlay;
         packages = rec {
-          inherit (pkgs.python3Packages) exllamav3 exllamav2 tabby-api;
+          inherit (pkgs.python3Packages) exllamav3 exllamav2 flash-attn tabby-api;
           default = tabby-api;
         };
 

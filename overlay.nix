@@ -66,6 +66,12 @@ inputs: final: prev: {
         src = inputs.exllamav3;
         version = inputs.exllamav3.shortRev;
       };
+      flash-attn = pyFinal.callPackage ./pkgs/flash-attn {
+        inherit (final) cudaPackages ninja;
+        inherit (pyFinal) buildPythonPackage setuptools wheel torch-bin numpy;
+        src = inputs.flash-attn;
+        version = inputs.flash-attn.shortRev;
+      };
       tabby-api = pyFinal.callPackage ./pkgs/tabby-api {
         inherit (final) makeWrapper;
         inherit (pyFinal) buildPythonPackage setuptools wheel packaging python

@@ -72,13 +72,19 @@ inputs: final: prev: {
         src = inputs.flash-attn;
         version = inputs.flash-attn.shortRev;
       };
+      flash-linear-attention = pyFinal.callPackage ./pkgs/flash-linear-attention {
+        inherit (final) cudaPackages ninja;
+        inherit (pyFinal) buildPythonPackage setuptools wheel torch-bin numpy einops transformers;
+        src = inputs.flash-linear-attention;
+        version = inputs.flash-linear-attention.shortRev;
+      };
       tabby-api = pyFinal.callPackage ./pkgs/tabby-api {
         inherit (final) makeWrapper;
         inherit (pyFinal) buildPythonPackage setuptools wheel packaging python
           fastapi uvicorn pydantic ruamel-yaml aiofiles aiohttp pillow
           psutil huggingface-hub loguru tokenizers rich jinja2 sse-starlette
           pydantic-settings httpx formatron kbnf async-lru httptools uvloop
-          exllamav2 exllamav3 flash-attn;
+          exllamav2 exllamav3 flash-attn flash-linear-attention;
         src = inputs.tabby-api;
         version = inputs.tabby-api.shortRev;
       };

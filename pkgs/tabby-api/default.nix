@@ -31,6 +31,7 @@
 , src
 , version
 , flash-attn
+, flash-linear-attention
 }:
 
 buildPythonPackage rec {
@@ -85,6 +86,7 @@ include = ["backends*", "common*", "endpoints*"]'
     exllamav2
     exllamav3
     flash-attn
+    flash-linear-attention
   ];
 
   # Disable runtime dependency checks as some package names differ

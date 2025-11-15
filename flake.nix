@@ -15,6 +15,13 @@
       submodules = true;
       flake = false;
     };
+    flash-linear-attention = {
+      type = "git";
+      url = "https://github.com/fla-org/flash-linear-attention";
+      ref = "refs/tags/v0.4.0";
+      submodules = true;
+      flake = false;
+    };
     tabby-api.url = github:theroyallab/tabbyAPI;
     tabby-api.flake = false;
   };
@@ -44,7 +51,7 @@
       {
         legacyPackages = pkgs;
         packages = rec {
-          inherit (pkgs.python3Packages) exllamav3 exllamav2 flash-attn tabby-api;
+          inherit (pkgs.python3Packages) exllamav3 exllamav2 flash-attn flash-linear-attention tabby-api;
           default = tabby-api;
         };
 

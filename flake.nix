@@ -20,6 +20,11 @@
       in
   {
       overlays.default = overlay;
+
+      nixosModules = {
+        tabbyapi = import ./modules/tabbyapi.nix;
+        default = self.nixosModules.tabbyapi;
+      };
   } // flake-utils.lib.eachDefaultSystem (system:
       let
             pkgs = import nixpkgs {

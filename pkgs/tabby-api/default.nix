@@ -79,6 +79,8 @@ include = ["backends*", "common*", "endpoints*"]'
     async-lru
     httptools
     uvloop
+    packaging
+    # Backend dependencies
     exllamav2
     exllamav3
   ];

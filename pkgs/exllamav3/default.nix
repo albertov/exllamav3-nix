@@ -17,6 +17,7 @@
 , pillow
 , src
 , version
+, flash-attn
 }:
 
 buildPythonPackage rec {
@@ -57,6 +58,7 @@ buildPythonPackage rec {
     tokenizers
     rich
     pillow
+    flash-attn
   ];
 
   doCheck = true;

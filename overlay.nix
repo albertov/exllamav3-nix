@@ -54,7 +54,7 @@ inputs: final: prev: {
         inherit (final) cudaPackages ninja;
         inherit (pyFinal) buildPythonPackage setuptools wheel pandas
           fastparquet torch-bin safetensors pygments websockets regex
-          numpy tokenizers rich pillow;
+          numpy tokenizers rich pillow flash-attn;
         src = inputs.exllamav2;
         version = inputs.exllamav2.shortRev;
       };
@@ -62,7 +62,7 @@ inputs: final: prev: {
         inherit (final) cudaPackages ninja;
         inherit (pyFinal) buildPythonPackage setuptools wheel pandas
           fastparquet torch-bin safetensors pygments websockets regex
-          numpy tokenizers rich pillow;
+          numpy tokenizers rich pillow flash-attn;
         src = inputs.exllamav3;
         version = inputs.exllamav3.shortRev;
       };
@@ -77,9 +77,8 @@ inputs: final: prev: {
         inherit (pyFinal) buildPythonPackage setuptools wheel packaging python
           fastapi uvicorn pydantic ruamel-yaml aiofiles aiohttp pillow
           psutil huggingface-hub loguru tokenizers rich jinja2 sse-starlette
-          pydantic-settings httpx formatron kbnf async-lru httptools uvloop;
-        exllamav2 = pyFinal.exllamav2;
-        exllamav3 = pyFinal.exllamav3;
+          pydantic-settings httpx formatron kbnf async-lru httptools uvloop
+          exllamav2 exllamav3 flash-attn;
         src = inputs.tabby-api;
         version = inputs.tabby-api.shortRev;
       };

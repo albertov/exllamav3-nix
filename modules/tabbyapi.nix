@@ -5,11 +5,10 @@ with lib;
 let
   cfg = config.services.tabbyapi;
 
-  # Helper function to convert Nix attrs to YAML
-  toYAML = attrs: builtins.toJSON attrs;
+  toYAML = lib.generators.toYAML {};
 
   # Build configuration file content
-  configFile = pkgs.writeText "config.yml" (builtins.toJSON (
+  configFile = pkgs.writeText "config.yml" (toYAML (
     filterAttrs (n: v: v != null) {
       # Networking options
       network = filterAttrs (n: v: v != null) {
@@ -214,8 +213,7 @@ in {
     };
 
     modelName = mkOption {
-      type = types.nullOr types.str;
-      default = null;
+      type = types.str;
       description = "Folder name of model to load on startup.";
     };
 
@@ -421,6 +419,39 @@ in {
   };
 
   config = mkIf cfg.enable {
+    nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "torch"
+      "nvidia-x11"
+      "nvidia-persistenced"
+      "cudatoolkit"
+      "cuda_cudart"
+      "cuda_cupti"
+      "cuda_cuxxfilt"
+      "cuda_nvml_dev"
+      "cuda_nvrtc"
+      "cuda_nvtx"
+      "cuda_profiler_api"
+      "cuda_sanitizer_api"
+      "libcublas"
+      "libcurand"
+      "libcusolver"
+      "libnvjitlink"
+      "libcusparse"
+      "libnpp"
+      "libcufft"
+      "cuda_cccl"
+      "cuda_cuobjdump"
+      "cuda_gdb"
+      "cuda_nvcc"
+      "cuda_nvdisasm"
+      "cuda_nvprune"
+      "nvidia-x11"
+      "cudnn"
+      "libcusparse_lt"
+      "libcufile"
+      "triton"
+      "nvidia-settings"
+    ];
     users.users = mkIf (cfg.user == "tabbyapi") {
       tabbyapi = {
         isSystemUser = true;
@@ -455,6 +486,7 @@ in {
           mkdir -p ${cfg.dataDir}/config
 
           # Copy config file
+          rm -f ${cfg.dataDir}/config/config.yml
           cp ${configFile} ${cfg.dataDir}/config/config.yml
         '';
 
@@ -475,7 +507,7 @@ in {
         ReadWritePaths = [ cfg.dataDir cfg.modelDir cfg.loraDir cfg.embeddingModelDir ];
 
         # Allow GPU access
-        DeviceAllow = [ "/dev/nvidia0" "/dev/nvidiactl" "/dev/nvidia-uvm" "/dev/nvidia-modeset" ];
+        DeviceAllow = [ "/dev/nvidia0" "/dev/nvidia1" "/dev/nvidia2" "/dev/nvidia3" "/dev/nvidiactl" "/dev/nvidia-uvm" "/dev/nvidia-modeset" ];
 
         # Resource limits
         LimitNOFILE = 65536;

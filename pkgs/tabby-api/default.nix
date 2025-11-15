@@ -30,6 +30,7 @@
 , uvloop
 , src
 , version
+, flash-attn
 }:
 
 buildPythonPackage rec {
@@ -83,6 +84,7 @@ include = ["backends*", "common*", "endpoints*"]'
     # Backend dependencies
     exllamav2
     exllamav3
+    flash-attn
   ];
 
   # Disable runtime dependency checks as some package names differ

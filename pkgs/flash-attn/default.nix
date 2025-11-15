@@ -6,6 +6,7 @@
 , wheel
 , torch-bin
 , numpy
+, psutil
 , src
 , version
 }:
@@ -39,6 +40,7 @@ buildPythonPackage rec {
     ninja
     wheel
     setuptools
+    psutil
   ];
 
   doCheck = false;

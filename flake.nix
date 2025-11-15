@@ -8,8 +8,13 @@
     exllamav3.flake = false;
     exllamav2.url = github:turboderp-org/exllamav2;
     exllamav2.flake = false;
-    flash-attn.url = "github:kingbri1/flash-attention/v2.8.3?submodules=1";
-    flash-attn.flake = false;
+    flash-attn = {
+      type = "git";
+      url = "https://github.com/kingbri1/flash-attention";
+      ref = "refs/tags/v2.8.3";
+      submodules = true;
+      flake = false;
+    };
     tabby-api.url = github:theroyallab/tabbyAPI;
     tabby-api.flake = false;
   };

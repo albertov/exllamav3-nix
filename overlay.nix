@@ -67,8 +67,8 @@ inputs: final: prev: {
         version = inputs.exllamav3.shortRev;
       };
       flash-attn = pyFinal.callPackage ./pkgs/flash-attn {
-        inherit (final) cudaPackages ninja;
-        inherit (pyFinal) buildPythonPackage setuptools wheel torch-bin numpy;
+        inherit (final) cudaPackages;
+        inherit (pyFinal) buildPythonPackage setuptools wheel torch-bin numpy psutil ninja;
         src = inputs.flash-attn;
         version = inputs.flash-attn.shortRev;
       };

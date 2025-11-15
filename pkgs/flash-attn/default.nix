@@ -37,9 +37,6 @@ buildPythonPackage rec {
   propagatedBuildInputs = [
     torch-bin
     numpy
-    ninja
-    wheel
-    setuptools
     psutil
   ];
 

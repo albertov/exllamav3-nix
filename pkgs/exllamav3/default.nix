@@ -45,9 +45,6 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [
     pandas
-    ninja
-    wheel
-    setuptools
     fastparquet
     torch-bin
     safetensors

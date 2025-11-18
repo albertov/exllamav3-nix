@@ -69,6 +69,25 @@
         "url": "https://github.com/kingbri1/flash-attention"
       }
     },
+    "flash-linear-attention": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761552466,
+        "narHash": "sha256-iFvMSakZ3vhDO2zP3pwhzxHyTdfkWJaD00wf1jNsStw=",
+        "ref": "refs/tags/v0.4.0",
+        "rev": "2e0f6c31f9db50f010cb157c712c048b8a3a89d2",
+        "revCount": 1702,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/fla-org/flash-linear-attention"
+      },
+      "original": {
+        "ref": "refs/tags/v0.4.0",
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/fla-org/flash-linear-attention"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1762977756,
@@ -91,6 +110,7 @@
         "exllamav3": "exllamav3",
         "flake-utils": "flake-utils",
         "flash-attn": "flash-attn",
+        "flash-linear-attention": "flash-linear-attention",
         "nixpkgs": "nixpkgs",
         "tabby-api": "tabby-api"
       }

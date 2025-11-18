@@ -51,24 +51,17 @@ inputs: final: prev: {
         doCheck = false;
       };
       exllamav2 = pyFinal.callPackage ./pkgs/exllamav2 {
-        inherit (final) cudaPackages ninja;
-        inherit (pyFinal) buildPythonPackage setuptools wheel pandas
-          fastparquet torch-bin safetensors pygments websockets regex
-          numpy tokenizers rich pillow flash-attn;
+        inherit (final) cudaPackages;
         src = inputs.exllamav2;
         version = inputs.exllamav2.shortRev;
       };
       exllamav3 = pyFinal.callPackage ./pkgs/exllamav3 {
-        inherit (final) cudaPackages ninja;
-        inherit (pyFinal) buildPythonPackage setuptools wheel pandas
-          fastparquet torch-bin safetensors pygments websockets regex
-          numpy tokenizers rich pillow flash-attn;
+        inherit (final) cudaPackages;
         src = inputs.exllamav3;
         version = inputs.exllamav3.shortRev;
       };
       flash-attn = pyFinal.callPackage ./pkgs/flash-attn {
         inherit (final) cudaPackages;
-        inherit (pyFinal) buildPythonPackage setuptools wheel torch-bin numpy psutil ninja;
         src = inputs.flash-attn;
         version = inputs.flash-attn.shortRev;
       };

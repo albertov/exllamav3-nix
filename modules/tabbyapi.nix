@@ -476,7 +476,7 @@ in {
         User = cfg.user;
         Group = cfg.group;
         WorkingDirectory = cfg.dataDir;
-        EnvironmentFile = cfg.environmentFiles;
+        #EnvironmentFile = cfg.environmentFiles;
 
         ExecStartPre = pkgs.writeShellScript "tabbyapi-pre-start" ''
           # Create necessary directories
@@ -499,25 +499,16 @@ in {
         Restart = "on-failure";
         RestartSec = "10s";
 
-        # Security hardening
-        NoNewPrivileges = true;
-        PrivateTmp = true;
-        ProtectSystem = "strict";
-        ProtectHome = true;
-        ReadWritePaths = [ cfg.dataDir cfg.modelDir cfg.loraDir cfg.embeddingModelDir ];
-
-        # Allow GPU access
-        DeviceAllow = [ "/dev/nvidia0" "/dev/nvidia1" "/dev/nvidia2" "/dev/nvidia3" "/dev/nvidiactl" "/dev/nvidia-uvm" "/dev/nvidia-modeset" ];
-
         # Resource limits
         LimitNOFILE = 65536;
       };
-
       environment = {
         # Ensure CUDA libraries are available
         LD_LIBRARY_PATH = lib.makeLibraryPath [
           pkgs.stdenv.cc.cc.lib
         ];
+        CUDA_HOME="${pkgs.cudaPackages.cuda_nvcc}";
+        TORCH_CUDA_ARCH_LIST="8.0;8.6;8.9;9.0;12.0";
       };
     };
 

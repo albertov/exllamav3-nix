@@ -1,5 +1,7 @@
-{ lib
+{ stdenv
+, lib
 , buildPythonPackage
+, cudaPackages
 , setuptools
 , wheel
 , packaging
@@ -32,9 +34,28 @@
 , version
 , flash-attn
 , flash-linear-attention
+, triton-bin
+, torch-bin
 }:
-
-buildPythonPackage rec {
+let
+  binPath =  lib.makeBinPath [
+    # These are needed to load qwen3-next-80b
+    setuptools
+    wheel
+    packaging
+    python.buildEnv
+    torch-bin
+    triton-bin
+    stdenv
+    cudaPackages.cuda_nvml_dev
+    cudaPackages.cuda_nvcc
+    cudaPackages.cuda_cudart
+    cudaPackages.libcublas
+    cudaPackages.libcusparse
+    cudaPackages.libcusolver
+    cudaPackages.libcurand
+  ];
+in buildPythonPackage rec {
   pname = "tabbyapi";
   inherit version;
   format = "pyproject";
@@ -60,7 +81,10 @@ include = ["backends*", "common*", "endpoints*"]'
 
   propagatedBuildInputs = [
     # Core dependencies from pyproject.toml
+    torch-bin
+    triton-bin
     fastapi
+    #marisa_trie FIXME
     uvicorn
     pydantic
     ruamel-yaml
@@ -96,10 +120,15 @@ include = ["backends*", "common*", "endpoints*"]'
     "pydantic"
   ];
 
+
+
   postInstall = ''
     # Create executable wrapper script
     makeWrapper ${python}/bin/python $out/bin/tabbyapi \
       --prefix PYTHONPATH : "$out/${python.sitePackages}:$PYTHONPATH" \
+      --prefix PATH : "${binPath}" \
+      --set CUDA_HOME "${cudaPackages.cuda_nvcc}" \
+      --set TORCH_CUDA_ARCH_LIST "8.0;8.6;8.9;9.0;12.0" \
       --add-flags "-m" \
       --add-flags "main"
   '';
